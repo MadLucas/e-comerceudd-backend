@@ -24,11 +24,16 @@ const getUserById = async (req, res) => {
 
 const createUser = async (req, res) => {
     try {
+        const useEmail = await User.findOne({email: req.body.email})
+        if(useEmail){
+            throw new Error("Email en uso!")
+        }
         const newUser = new User(req.body);
+        newUser.encriptarPassword(req.body.password);
         await newUser.save();
-        res.json({ success: true, msg: 'Usuario creado exitosamente', info: newUser });
+        res.json({success: true, message: "Usuario Creado", info: newUser._id, token: newUser.generateToken()})
     } catch (error) {
-        res.status(500).json({ success: false, msg: error.message });
+        res.json({success: false, message: error.message})
     }
 };
 
@@ -58,10 +63,34 @@ const deleteUser = async (req, res) => {
     }
 };
 
+const loginUser = async(req, res) => {
+    try {
+        const {email, password} = req.body;
+        const user = await User.findOne({email}); // buscando email en mongo atlas
+    
+        if(!user){
+            throw new Error("Usuario no existe!") // no encontro el usuario
+        } 
+
+        const validarPassword = user.verificarEncriptacion(password, user.salt, user.password)
+
+        if(!validarPassword){
+            throw new Error('Email o contraseña incorrecta!')
+        }
+
+        res.json({success: true, msg: "Has iniciado sesion correctamente!", token: user.generateToken()})
+
+
+    } catch (error) {
+        res.status(500).json({success: false, message: error.message})
+    }
+}
+
 module.exports = {
     getAllUsers,
     getUserById,
     createUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    loginUser
 };

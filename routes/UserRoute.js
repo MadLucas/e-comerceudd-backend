@@ -1,17 +1,22 @@
 const express = require('express');
 const auth = require('../middleware/auth');
 const userController = require('../controllers/userController.js');
+const {getAllUsers,getUserById,createUser,updateUser,deleteUser, loginUser} = require("../controllers/userController.js")
 
 const userRouter = express.Router();
 
 // Rutas para CRUD de usuarios
 userRouter.route('/users')
-    .get(auth, userController.getAllUsers) // Obtener todos los usuarios
-    .post(auth, userController.createUser); // Crear un nuevo usuario
+    .get(auth,getAllUsers) // Obtener todos los usuarios
+    .post(createUser); // Crear un nuevo usuario
 
 userRouter.route('/users/:id')
-    .get(auth, userController.getUserById) // Obtener un usuario por su ID
-    .put(auth, userController.updateUser) // Actualizar un usuario por su ID
-    .delete(auth, userController.deleteUser); // Eliminar un usuario por su ID
+    .get(getUserById) // Obtener un usuario por su ID
+    .put( updateUser) // Actualizar un usuario por su ID
+    .delete( deleteUser); // Eliminar un usuario por su ID
+
+userRouter.route('/login')
+    .post(loginUser)
+
 
 module.exports = userRouter;
