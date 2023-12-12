@@ -23,6 +23,7 @@ const getProductById = async (req, res) => {
 };
 
 const createProduct = async (req, res) => {
+    console.log("desde crear producto", req.body)
     try {
         const newProduct = new Product(req.body);
         await newProduct.save();

@@ -6,8 +6,8 @@ const productRouter = express.Router();
 
 // Rutas para CRUD de productos
 productRouter.route('/products')
-    .get(auth, productController.getAllProducts) // Obtener todos los productos
-    .post(auth, productController.createProduct); // Crear un nuevo producto
+    .get( productController.getAllProducts) // Obtener todos los productos
+    .post( productController.createProduct); // Crear un nuevo producto
 
 productRouter.route('/products/:id')
     .get(auth, productController.getProductById) // Obtener un producto por ID

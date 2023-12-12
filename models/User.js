@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     }
-});
+}, {timestamps:true});
 
 userSchema.methods.encriptarPassword = function(password){
     this.salt = crypto.randomBytes(10).toString('hex');
