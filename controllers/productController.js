@@ -59,10 +59,25 @@ const deleteProduct = async (req, res) => {
     }
 };
 
+const reduceStock = async (req,res) => {
+    const productPurchased = req.body.cartItems;
+
+    try {
+        productPurchased.map(async(product)=>{
+            await Product.findByIdAndUpdate(product._id, {stock:product.stock - product.quantity})
+        })
+        res.status(201).json({success:true, msg: "se ha reducido el stock de los productos"})
+    } catch (error) {
+        res.status(500).json({ success: false, msg: error.message})
+        
+    }
+}
+
 module.exports = {
     getAllProducts,
     getProductById,
     createProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    reduceStock
 };

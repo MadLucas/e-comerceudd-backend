@@ -14,4 +14,7 @@ productRouter.route('/products/:id')
     .put(productController.updateProduct) // Actualizar un producto por ID
     .delete( productController.deleteProduct); // Eliminar un producto por ID
 
+productRouter.route("/reduceStock")
+    .put(productController.reduceStock)
+
 module.exports = productRouter;
