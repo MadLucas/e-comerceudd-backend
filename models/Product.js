@@ -1,51 +1,53 @@
 const mongoose = require('mongoose');
 
-const colorsSchema = new mongoose.Schema({
-    red: {
-        type: String
-    },
-    blue: {
-        type: String
-    }
-});
-
 const productSchema = new mongoose.Schema({
-    
-    name: {
+    _id: {
+        type: Number,
+        required: true
+    },
+    title: {
         type: String,
         required: true,
-        lowercase: true,
-        minLength: 3,
-        maxLength: 130,
         trim: true
     },
-    price: {
-        type: Number,
-        required: true,
-        min: 0,
-        max: 1000000000
+    isbn: {
+        type: String,
+        required: true
     },
-    image: String,
-    // details: {
-    //     typeProduct: {
-    //         type: String
-    //     },
-    //     material: {
-    //         type: String
-    //     },
-    //     weight: {
-    //         type: Number,
-    //         min: 0.1
-    //     },
-    //     // color: [colorsSchema] // Usando el esquema de colores directamente aquí
-    // },
-    stock: {
+    pageCount: {
         type: Number,
-        min: 0,
-        max: 100
+        required: true
+    },
+    publishedDate: {
+        type: Date,
+        required: true
+    },
+    thumbnailUrl: {
+        type: String,
+        required: true
+    },
+    shortDescription: {
+        type: String,
+        required: true
+    },
+    longDescription: {
+        type: String,
+        required: true
+    },
+    status: {
+        type: String,
+        required: true
+    },
+    authors: {
+        type: [String],
+        required: true
+    },
+    categories: {
+        type: [String],
+        required: true
     }
-}, {timestamps:true});
+}, { timestamps: true });
 
-const Product = mongoose.model("products", productSchema);
+const Product = mongoose.model("Product", productSchema);
 
-module.exports = Product ; // Exportando el modelo y el esquema de colores
+module.exports = Product;
