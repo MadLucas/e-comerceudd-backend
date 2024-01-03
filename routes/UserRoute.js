@@ -1,7 +1,7 @@
 const express = require('express');
 const auth = require('../middleware/auth');
 const userController = require('../controllers/userController.js');
-const {getAllUsers,getUserById,createUser,updateUser,deleteUser, loginUser} = require("../controllers/userController.js")
+const {getAllUsers,getUserById,createUser,updateUser,deleteUser, loginUser, getProfile, getVerifyUser} = require("../controllers/userController.js")
 
 const userRouter = express.Router();
 
@@ -13,10 +13,13 @@ userRouter.route('/users')
 userRouter.route('/users/:id')
     .get(getUserById) // Obtener un usuario por su ID
     .put( updateUser) // Actualizar un usuario por su ID
-    .delete( deleteUser); // Eliminar un usuario por su ID
+    .delete( deleteUser) // Eliminar un usuario por su ID
+    .get(auth, getProfile)
 
 userRouter.route('/login')
     .post(loginUser)
 
+userRouter.route('/verifyUser')
+    .get(auth,getVerifyUser)
 
 module.exports = userRouter;

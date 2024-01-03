@@ -86,11 +86,37 @@ const loginUser = async(req, res) => {
     }
 }
 
+//! EXTRAS!!!!!
+
+const getProfile = async(req, res) => {
+    try {
+        const {id} = req.params;
+        const getInfoUser = await User.findById(id).select("-password -salt")
+
+        res.json({success: true, info: getInfoUser })
+    } catch (error) {
+        res.json({success: false, message: error.message})
+    }
+}
+
+const getVerifyUser = async(req, res) => {
+    try {
+        const {id} = req.auth;
+        const getInfoUser = await User.findById(id).select("-password -salt")
+
+        res.json({success: true, msg: `Informacion de: ${getInfoUser.email}`, info: getInfoUser })
+    } catch (error) {
+        res.json({success: false, message: error.message})
+    }
+}
+
 module.exports = {
     getAllUsers,
     getUserById,
     createUser,
     updateUser,
     deleteUser,
-    loginUser
+    loginUser,
+    getProfile,
+    getVerifyUser
 };
