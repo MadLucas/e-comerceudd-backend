@@ -14,4 +14,6 @@ productRouter.route('/products/:id')
     .put(auth, productController.updateProduct) // Actualizar un producto por ID
     .delete(auth, productController.deleteProduct); // Eliminar un producto por ID
 
+
+
 module.exports = productRouter;
