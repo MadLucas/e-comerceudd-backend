@@ -2,7 +2,8 @@
 const express = require('express');
 const productRouter = require('./routes/ProductRoutes')
 const userRouter = require('./routes/UserRoute')
-const cors = require('cors')
+const cors = require('cors');
+const { carritoRoute } = require('./routes/CarritoRoute');
 require('dotenv').config();
 
 const app = express();
@@ -15,7 +16,9 @@ const puerto = process.env.PORT
 
 app.use(express.json()) // sirve para que el servidor entienda lo que me envian (JSON)
 app.use(cors())
-
+app.use(productRouter)
+app.use(userRouter)
+app.use(carritoRoute)
 
 // let productos = [{
 // }]
@@ -41,6 +44,3 @@ app.use(cors())
 //Levantar servidor
 // PORT 8080
 app.listen(process.env.PORT, () => console.log(`conectando en puerto ${puerto}!`))
-
-app.use(productRouter)
-app.use(userRouter)

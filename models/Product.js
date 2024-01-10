@@ -48,4 +48,4 @@ const productSchema = new mongoose.Schema({
 
 const Product = mongoose.model("products", productSchema);
 
-module.exports = Product ; // Exportando el modelo y el esquema de colores
+module.exports = Product; // Exportando el modelo y el esquema de colores

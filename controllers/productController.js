@@ -1,5 +1,5 @@
 const Product = require('../models/Product');
-
+const Carrito = require('../models/Carrito');
 const getAllProducts = async (req, res) => {
     try {
         const products = await Product.find();
@@ -58,6 +58,14 @@ const deleteProduct = async (req, res) => {
         res.status(500).json({ success: false, msg: error.message });
     }
 };
+const verCarrito = async (req, res) => {
+    try{
+        const carrito = await Carrito.find()
+        res.json(carrito)
+    } catch (error){
+        res.status(500).json({ success: false, msg: error.message });
+    }
+}
 
 const reduceStock = async (req,res) => {
     const productPurchased = req.body.cartItems;
@@ -79,5 +87,6 @@ module.exports = {
     createProduct,
     updateProduct,
     deleteProduct,
-    reduceStock
+    reduceStock,
+    verCarrito
 };

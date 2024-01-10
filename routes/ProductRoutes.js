@@ -17,4 +17,6 @@ productRouter.route('/products/:id')
 productRouter.route("/reduceStock")
     .put(productController.reduceStock)
 
+
+
 module.exports = productRouter;

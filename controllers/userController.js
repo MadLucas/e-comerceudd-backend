@@ -24,8 +24,8 @@ const getUserById = async (req, res) => {
 
 const createUser = async (req, res) => {
     try {
-        const useEmail = await User.findOne({email: req.body.email})
-        if(useEmail){
+        const userEmail = await User.findOne({email: req.body.email})
+        if(userEmail){
             throw new Error("Email en uso!")
         }
         const newUser = new User(req.body);
