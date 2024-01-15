@@ -1,8 +1,12 @@
 const express = require('express');
 const auth = require('../middleware/auth');
-const { cantidadProductoCarrito, eliminarProductoCarrito, getCarritoId, agregarProductoCarrito } = require('../controllers/carritoController');
+const { cantidadProductoCarrito, eliminarProductoCarrito, getCarritoId, agregarProductoCarrito, crearCarritoNuevo, obtenerCarritos } = require('../controllers/carritoController');
 
 const carritoRoute = express.Router();
+
+carritoRoute.route('/carrito')
+    .post(crearCarritoNuevo)//ruta para crear carrito
+    .get(obtenerCarritos)//ruta para traer todos los carritos y su información
 
 carritoRoute.route('/carrito/:id')
     .post(agregarProductoCarrito)//ruta para agregar producto al carrito

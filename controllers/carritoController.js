@@ -1,5 +1,56 @@
 const {Cart} = require('../models/Carrito');
 const { param } = require('../routes/ProductRoutes');
+const {jwtDecode} = require("jwt-decode")
+const crearCarritoNuevo = async (req, res) => {
+    const {authorization} = req.headers
+    let userToken;
+    if(!authorization){
+        return res.status(422).json({
+            mensaje: "Se necesita authorization (token)",
+            status: "No ok"
+        })
+    }
+
+    if(authorization) {
+        const [type,token] = authorization.split(" ")
+        userToken = token
+    }
+    const userId = jwtDecode(userToken).id
+    const carrito = {
+        userId: userId,
+        items: []
+    }
+    try {
+        const carritoCreado = new Cart (carrito)
+    await carritoCreado.save()
+    return res.status(200).json({
+        mensaje: "Carrito creado con éxito",
+        status: "ok",
+        data: carritoCreado //se muestra el carrito con su contenido(chaleco listo)
+    })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            mensaje: "conectarse con el administrador",
+            status: "no ok"
+        })
+    }
+}
+
+//controlador para obtener todos los carritos
+const obtenerCarritos = async (req, res) => {
+    try {
+        const carritos = await Cart.find()
+        return res.status(200).json({
+            mensaje: "Todos los carritos solicitados",
+            status: "ok",
+            data: carritos
+        })
+    } catch (error) {
+        
+    }
+}
+
 
 //controlador para ver el carrito
 const getCarritoId = async (req, res) => {
@@ -30,25 +81,26 @@ const getCarritoId = async (req, res) => {
 
 const agregarProductoCarrito = async (req, res) => {
     const carritoId =req.params.id
-    const {productId, quantity, userId} = req.body
-    if(!productId||!quantity||!userId){
+    const {productId, quantity} = req.body
+    if(!productId||!quantity){
         return res.status(422).json({
-            mensaje: "Ingrese productId, quantity y userId",
+            mensaje: "Ingrese productId y quantity",
             status: "no ok"
         })
 
     }
     try {
-        const carritoCreado = new Cart({
-            items:[{
-                productId,
-                quantity
-                
-            }],
-            userId
+        const carritoActualizado = await Cart.findByIdAndUpdate (carritoId,{
+            $push:{
+                items: {
+                    productId, quantity
+                }
+            }
+        }, {
+            new: true
         })
-        await carritoCreado.save()
-        return res.status(201).json(carritoCreado)
+
+        return res.status(201).json(carritoActualizado)
     } catch (error) {
         console.error(error)
         return res.status(500).json({
@@ -97,4 +149,6 @@ module.exports = {
     agregarProductoCarrito,
     cantidadProductoCarrito,
     eliminarProductoCarrito,
+    crearCarritoNuevo,
+    obtenerCarritos,
 }
