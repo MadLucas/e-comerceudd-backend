@@ -1,5 +1,5 @@
 const Product = require('../models/Product');
-
+const Carrito = require('../models/Carrito');
 const getAllProducts = async (req, res) => {
     try {
         const products = await Product.find();
@@ -23,6 +23,7 @@ const getProductById = async (req, res) => {
 };
 
 const createProduct = async (req, res) => {
+    console.log("desde crear producto", req.body)
     try {
         const newProduct = new Product(req.body);
         await newProduct.save();
@@ -57,11 +58,35 @@ const deleteProduct = async (req, res) => {
         res.status(500).json({ success: false, msg: error.message });
     }
 };
+const verCarrito = async (req, res) => {
+    try{
+        const carrito = await Carrito.find()
+        res.json(carrito)
+    } catch (error){
+        res.status(500).json({ success: false, msg: error.message });
+    }
+}
+
+const reduceStock = async (req,res) => {
+    const productPurchased = req.body.cartItems;
+
+    try {
+        productPurchased.map(async(product)=>{
+            await Product.findByIdAndUpdate(product._id, {stock:product.stock - product.quantity})
+        })
+        res.status(201).json({success:true, msg: "se ha reducido el stock de los productos"})
+    } catch (error) {
+        res.status(500).json({ success: false, msg: error.message})
+        
+    }
+}
 
 module.exports = {
     getAllProducts,
     getProductById,
     createProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    reduceStock,
+    verCarrito
 };

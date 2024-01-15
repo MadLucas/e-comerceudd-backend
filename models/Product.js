@@ -10,12 +10,7 @@ const colorsSchema = new mongoose.Schema({
 });
 
 const productSchema = new mongoose.Schema({
-    sku: {
-        type: String,
-        required: true,
-        minLength: 6,
-        maxLength: 6
-    },
+    
     name: {
         type: String,
         required: true,
@@ -31,26 +26,26 @@ const productSchema = new mongoose.Schema({
         max: 1000000000
     },
     image: String,
-    details: {
-        typeProduct: {
-            type: String
-        },
-        material: {
-            type: String
-        },
-        weight: {
-            type: Number,
-            min: 0.1
-        },
-        color: [colorsSchema] // Usando el esquema de colores directamente aquí
-    },
+    // details: {
+    //     typeProduct: {
+    //         type: String
+    //     },
+    //     material: {
+    //         type: String
+    //     },
+    //     weight: {
+    //         type: Number,
+    //         min: 0.1
+    //     },
+    //     // color: [colorsSchema] // Usando el esquema de colores directamente aquí
+    // },
     stock: {
         type: Number,
         min: 0,
         max: 100
     }
-});
+}, {timestamps:true});
 
-const Product = mongoose.model("Product", productSchema);
+const Product = mongoose.model("products", productSchema);
 
-module.exports = { Product, colorsSchema }; // Exportando el modelo y el esquema de colores
+module.exports = Product; // Exportando el modelo y el esquema de colores

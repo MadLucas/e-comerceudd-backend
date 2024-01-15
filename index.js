@@ -1,37 +1,45 @@
-
+// Librerias
 const express = require('express');
+const productRouter = require('./routes/ProductRoutes')
+const userRouter = require('./routes/UserRoute')
+const cors = require('cors');
+const { carritoRoute } = require('./routes/CarritoRoute');
+require('dotenv').config();
+
 const app = express();
-require("dotenv").config();
 
+require('./config/database');
 
+const puerto = process.env.PORT
 
 //Middleware 
 
 app.use(express.json()) // sirve para que el servidor entienda lo que me envian (JSON)
+app.use(cors())
+app.use(productRouter)
+app.use(userRouter)
+app.use(carritoRoute)
 
+// let productos = [{
+// }]
 
-const puerto = process.env.PORT
+// app.get("/products")
 
-let productos = [{
-}]
+// app.post("/register", (req, res) => {
+//     const {username, password} = req.body;
+//     res.json({message:`bienvenido ${username}`})
+// })
 
-app.get("/products")
+// app.post("/createProduct", (req, res) => {
+//     const {nombre, valor} = req.body; 
 
-app.post("/register", (req, res) => {
-    const {username, password} = req.body;
-    res.json({message:`bienvenido ${username}`})
-})
+//     productos.push({
+//         nombre,
+//         valor
+//     })
 
-app.post("/createProduct", (req, res) => {
-    const {nombre, valor} = req.body; 
-
-    productos.push({
-        nombre,
-        valor
-    })
-
-    res.json({succes: true, message:`se hacreado el producto`, productCreated: nombre})
-})
+//     res.json({succes: true, message:`se hacreado el producto`, productCreated: nombre})
+// })
 
 //Levantar servidor
 // PORT 8080

@@ -6,12 +6,17 @@ const productRouter = express.Router();
 
 // Rutas para CRUD de productos
 productRouter.route('/products')
-    .get(auth, productController.getAllProducts) // Obtener todos los productos
-    .post(auth, productController.createProduct); // Crear un nuevo producto
+    .get( productController.getAllProducts) // Obtener todos los productos
+    .post( productController.createProduct); // Crear un nuevo producto
 
 productRouter.route('/products/:id')
-    .get(auth, productController.getProductById) // Obtener un producto por ID
-    .put(auth, productController.updateProduct) // Actualizar un producto por ID
-    .delete(auth, productController.deleteProduct); // Eliminar un producto por ID
+    .get(productController.getProductById) // Obtener un producto por ID
+    .put(productController.updateProduct) // Actualizar un producto por ID
+    .delete( productController.deleteProduct); // Eliminar un producto por ID
+
+productRouter.route("/reduceStock")
+    .put(productController.reduceStock)
+
+
 
 module.exports = productRouter;
