@@ -65,19 +65,22 @@ const deleteUser = async (req, res) => {
 
 const loginUser = async(req, res) => {
     try {
+        console.log("LOGINPASO1")
         const {email, password} = req.body;
         const user = await User.findOne({email}); // buscando email en mongo atlas
-    
+        console.log("LOGINPASO2:VERIFICOCORREO")
         if(!user){
+            console.log("PASO3:NOENCONTROUSUARIO")
             throw new Error("Usuario no existe!") // no encontro el usuario
         } 
 
-        const validarPassword = user.verificarEncriptacion(password, user.salt, user.password)
-
+        const validarPassword = User.verificarEncriptacion(password, user.salt, user.password)
+        console.log("PASO4:VERIFICAR CONTRASEÑA")
         if(!validarPassword){
+            console.log("PASO5:CONTRASEÑAINVALIDA")
             throw new Error('Email o contraseña incorrecta!')
         }
-
+        console.log("INICIO DE SESIÓN EXITOSA")
         res.json({success: true, msg: "Has iniciado sesion correctamente!", token: user.generateToken()})
 
 

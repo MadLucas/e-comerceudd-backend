@@ -16,11 +16,30 @@ const userSchema = new mongoose.Schema({
         match: [/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g],
         required: true
     },
-    age: {
+    
+    phone:{
         type: Number,
-        min: 16,
-        max: 120
+        min:911111111,
+        max:999999999
     },
+    adress: {
+        type: String,
+        trim: true,
+        required:true
+    },
+    comune:{
+        type: String,
+        trim: true,
+        required:true
+    },
+
+    region:{
+        type: String,
+        enum: ["Región de Arica y Parinacota", "Región de Tarapacá", "Región de Antofagasta", "Región de Atacama", "Región de Coquimbo", "Región de Valparaíso","Región Metropolitana", "Región de O’Higgins", "Región del Maule", "Región del Ñuble", "Región del Biobío", "Región de La Araucanía", "Región de Los Ríos", "Región de Los Lagos", "Región de Aysén", "Región de Magallanes"],
+        default: "Región Metropolitana"
+
+    },
+
     password: {
         type: String,
         match: [/^(?=.*\d)(?=.*[a-z])(?=.*[a-zA-Z]).{8,}$/gm],
