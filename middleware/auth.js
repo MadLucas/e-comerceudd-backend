@@ -3,8 +3,10 @@ require('dotenv').config();
 
 const getToken = (req) => {
     const { authorization } = req.headers;
+    console.log(authorization)
 
     if (authorization) {
+        console.log("entro al if")
         const [type, token] = authorization.split(' ');
         return type === "Bearer" ? token : null;
     }

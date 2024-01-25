@@ -1,3 +1,6 @@
+
+const { verificarEncriptacion } = require('../helpers/verificarEncriptacion');
+
 const User = require('../models/User');
 
 const getAllUsers = async (req, res) => {
@@ -74,7 +77,7 @@ const loginUser = async(req, res) => {
             throw new Error("Usuario no existe!") // no encontro el usuario
         } 
 
-        const validarPassword = User.verificarEncriptacion(password, user.salt, user.password)
+        const validarPassword = verificarEncriptacion(password, user.salt, user.password)
         console.log("PASO4:VERIFICAR CONTRASEÑA")
         if(!validarPassword){
             console.log("PASO5:CONTRASEÑAINVALIDA")
@@ -85,6 +88,7 @@ const loginUser = async(req, res) => {
 
 
     } catch (error) {
+        console.log(error)
         res.status(500).json({success: false, message: error.message})
     }
 }
@@ -105,11 +109,15 @@ const getProfile = async(req, res) => {
 const getVerifyUser = async(req, res) => {
     try {
         const {id} = req.auth;
+        console.log(id)
         const getInfoUser = await User.findById(id).select("-password -salt")
+        console.log(getInfoUser)
 
         res.json({success: true, msg: `Informacion de: ${getInfoUser.email}`, info: getInfoUser })
     } catch (error) {
+        console.log(error)
         res.json({success: false, message: error.message})
+        
     }
 }
 
