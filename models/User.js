@@ -66,6 +66,11 @@ userSchema.methods.generateToken = function(){
     const payload = {
         id: this._id,
         name: this.name,
+        email: this.email,
+        phone: this.phone,
+        comune: this.comune,
+        region: this.region,
+        adress: this.adress,
         isAdmin: this.isAdmin
     };
 
