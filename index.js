@@ -16,7 +16,7 @@ app.use(express.json()); // Sirve para que el servidor entienda lo que le envía
 
 // Configuración específica de CORS
 const corsOptions = {
-    origin: 'https://main--regal-chimera-e19bc1.netlify.app/', 
+    origin: '*', 
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
     optionsSuccessStatus: 204,
