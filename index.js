@@ -7,7 +7,7 @@ require('dotenv').config();
 
 const app = express();
 
-require('./config/database');
+require('./config/dataBase');
 
 const puerto = process.env.PORT;
 
