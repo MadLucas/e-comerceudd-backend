@@ -1,7 +1,6 @@
-// Librerias
 const express = require('express');
-const productRouter = require('./routes/ProductRoutes')
-const userRouter = require('./routes/UserRoute')
+const productRouter = require('./routes/ProductRoutes');
+const userRouter = require('./routes/UserRoute');
 const cors = require('cors');
 const { carritoRoute } = require('./routes/CarritoRoute');
 require('dotenv').config();
@@ -10,37 +9,24 @@ const app = express();
 
 require('./config/database');
 
-const puerto = process.env.PORT
+const puerto = process.env.PORT;
 
-//Middleware 
+// Middleware
+app.use(express.json()); // Sirve para que el servidor entienda lo que le envían (JSON)
 
-app.use(express.json()) // sirve para que el servidor entienda lo que me envian (JSON)
-app.use(cors())
-app.use(productRouter)
-app.use(userRouter)
-app.use(carritoRoute)
+// Configuración específica de CORS
+const corsOptions = {
+  origin: 'https://main--regal-chimera-e19bc1.netlify.app', // Reemplaza con la URL correcta de tu frontend en Netlify
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  optionsSuccessStatus: 204,
+};
 
-// let productos = [{
-// }]
+app.use(cors(corsOptions));
 
-// app.get("/products")
+// Rutas
+app.use(productRouter);
+app.use(userRouter);
+app.use(carritoRoute);
 
-// app.post("/register", (req, res) => {
-//     const {username, password} = req.body;
-//     res.json({message:`bienvenido ${username}`})
-// })
-
-// app.post("/createProduct", (req, res) => {
-//     const {nombre, valor} = req.body; 
-
-//     productos.push({
-//         nombre,
-//         valor
-//     })
-
-//     res.json({succes: true, message:`se hacreado el producto`, productCreated: nombre})
-// })
-
-//Levantar servidor
-// PORT 8080
-app.listen(process.env.PORT, () => console.log(`conectando en puerto ${puerto}!`))
+app.listen(process.env.PORT, () => console.log(`Conectando en puerto ${puerto}!`));
