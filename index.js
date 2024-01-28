@@ -14,15 +14,9 @@ const puerto = process.env.PORT;
 // Middleware
 app.use(express.json()); // Sirve para que el servidor entienda lo que le envían (JSON)
 
-// Configuración específica de CORS
-const corsOptions = {
-    origin: '*', 
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,
-    optionsSuccessStatus: 204,
-};
 
-app.use(cors(corsOptions));
+
+app.use(cors());
 
 // Rutas
 app.use(productRouter);
